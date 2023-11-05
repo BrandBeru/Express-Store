@@ -185,9 +185,6 @@ dist
 .webpack/
 
 # Optional stylelint cache
-fly.toml
-Dockerfile
-.dockerignore
 
 # SvelteKit build / generate output
 .svelte-kit
