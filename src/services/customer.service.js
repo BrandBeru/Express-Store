@@ -1,6 +1,7 @@
 const boom = require('@hapi/boom');
 const pool = require('../libs/postgres.pool');
 const { models } = require('../libs/sequelize');
+const bcrypt = require('bcrypt')
 
 class CustomerService {
   constructor() {
@@ -8,13 +9,22 @@ class CustomerService {
     this.pool.on('error', (err) => console.log(err));
   }
   async create(data) {
+    const hash = await bcrypt.hash(data.user.password, 13)
+    const hashData = {
+      ...data,
+      user: {
+        ...data.user,
+        password: hash
+      }
+    }
     if (data.user) {
-      const customer = await models.Customer.create(data, {
+      const customer = await models.Customer.create(hashData, {
         include: ['user']
       });
       return customer;
     }
     const customer = await models.Customer.create(data);
+    delete customer.dataValues.user.dataValues.password;
     return customer;
   }
   async find() {
