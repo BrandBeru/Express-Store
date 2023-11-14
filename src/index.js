@@ -9,7 +9,7 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json())
 
-const whiteList = ['localhost:3000', 'https://api.branberu.tech']
+const whiteList = ['http://localhost:3000', 'https://api.brandberu.tech']
 const options = {
   origin: (origin, callback) => {
     if(whiteList.includes(origin)){
